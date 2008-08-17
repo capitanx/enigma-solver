@@ -17,7 +17,7 @@ VERSION = 0.0
 OSTYPE= $(shell uname -s)
 
 ifeq ($(OSTYPE),Linux)
-	OPTS = -O3 -Wall -Wextra -pedantic -lbsd
+	OPTS = -O3 -Wall -Wextra -pedantic
 else
 	OPTS = -O3 -Wall -Wextra -pedantic
 endif
