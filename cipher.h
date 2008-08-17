@@ -16,7 +16,7 @@
 #include <ctype.h>
 
 #ifdef __linux__
-#include <bsd/string.h>
+#define strlcpy strncpy
 #endif
 
 /* Defines */
