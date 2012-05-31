@@ -67,7 +67,7 @@ void initParams(Params *p)
       p->rings[i] = 'A';
       p->pos[i] = 'A';
     }
-    strcpy(p->plug, "");
+    strlcpy(p->plug, "", sizeof(p->plug));
   }
   else
   {

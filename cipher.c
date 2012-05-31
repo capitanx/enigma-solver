@@ -141,7 +141,7 @@ void cypher(Params p)
     i++;
   }
   in[i] = '\0';
-  strcpy(s, enigma(in, &p));
+  strlcpy(s, enigma(in, &p), sizeof(s));
   printf("\n%s\n%s\n", s, in);
 }
 
@@ -161,7 +161,7 @@ int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct)
   p.order[1] = b;
   p.order[2] = c;
   p.rings[0] = p.rings[1] = p.rings[2] = 'A';
-  strcpy(p.plug, plug);
+  strlcpy(p.plug, plug, sizeof(p.plug));
 
   for(p.pos[0] = 'A'; p.pos[0] <= 'Z'; p.pos[0]++)
   {
@@ -200,7 +200,7 @@ int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct)
 	      if(len == i) {
 			(*ct)++;
 			cp = p;
-			strcpy(s, enigma(cyph, &cp));
+			strlcpy(s, enigma(cyph, &cp), sizeof(s));
 
 			if (oldcyph1 != s[9] && oldcyph2 != s[32]) {
 				printf("W: %d%d%d S: %c%c%c R: %c%c%c STECKER: \"%s\"\t# %s\n",
@@ -240,7 +240,7 @@ void test(int a, int b, int c, char *cyph, char *crib, int *ct)
 //  char E, F, G, H, I, J;
   char s[11];
 
-  strcpy(s, "");
+  strlcpy(s, "", sizeof(s));
   printf("Checking wheels %d %d %d\n",  a, b, c); 
 	  rotate(c, b, a, cyph, crib, "", ct);
 	  A='A';
