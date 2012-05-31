@@ -21,9 +21,9 @@ char rotor[5][26]={
 
 char ref[26]="YRUHQSLDPXNGOKMIEBFZCWVJAT";
 
-char refA[26] = "EJMZALYXVBWFCRQUONTSPIKHGD"; // before to WWII
-char refB[26] = "YRUHQSLDPXNGOKMIEBFZCWVJAT"; // standard on WWII
-char refC[26] = "FVPJIAOYEDRZXWGCTKUQSBNMHL"; // rare on WWII
+char refA[26] = "EJMZALYXVBWFCRQUONTSPIKHGD"; /* before to WWII   */
+char refB[26] = "YRUHQSLDPXNGOKMIEBFZCWVJAT"; /* standard on WWII */
+char refC[26] = "FVPJIAOYEDRZXWGCTKUQSBNMHL"; /* rare on WWII     */
 
 char notch[5]="QEVJZ";
 

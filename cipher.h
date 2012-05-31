@@ -14,6 +14,10 @@
 #include <string.h>
 #include <ctype.h>
 
+#ifdef __linux__
+#include <bsd/string.h>
+#endif
+
 #define MSGLEN 80
 #define TO 'Z'
 

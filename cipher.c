@@ -122,7 +122,7 @@ char out[MSGLEN];
 /*take a string, return encoded string*/
 char *enigma(char *in, Params *p)
 {
-  int j;
+  unsigned int j;
   for(j = 0; j < strlen(in); j++)
   out[j] = scramble(in[j], p);
   out[j] = '\0';
@@ -237,7 +237,7 @@ int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct)
 void test(int a, int b, int c, char *cyph, char *crib, int *ct)
 {
   char A, B, C, D;
-//  char E, F, G, H, I, J;
+/*  char E, F, G, H, I, J; */
   char s[11];
 
   strlcpy(s, "", sizeof(s));
