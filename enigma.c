@@ -1,4 +1,4 @@
-*****************************************************************************
+/*****************************************************************************
 *
 * This source code is distributed under the GPLv3 license, COPYING.
 *
@@ -9,7 +9,7 @@
 *
 ******************************************************************************/
 
-#include "enigma.h"
+#include "cipher.h"
 
 /*run on all permutations of wheels a, b, c*/
 void permute(int a, int b, int c, char *cyph, char *crib, int *ct)
@@ -115,6 +115,8 @@ int main(int argc, char *argv[])
     initParams(&p);
     cypher(p);
   }
+
+  return(0);
 }
 
 

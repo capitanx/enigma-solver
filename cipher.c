@@ -10,10 +10,11 @@
  ******************************************************************************/
 
 #include "cipher.h"
+#include "enigma.h"
 
 char scramble(char c, Params *p)
 {
-  int i, j, flag, stop = 0;
+  int i, j, flag;
 
 		c=toupper(c);
 		if (!isalpha(c))
@@ -235,8 +236,8 @@ int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct)
 /*do the whole check including steckering of up to two pairs of letters*/
 void test(int a, int b, int c, char *cyph, char *crib, int *ct)
 {
-  char A, B, C, D, E, F, G, H, I, J;
-  int i = 0, cs, fin;
+  char A, B, C, D;
+//  char E, F, G, H, I, J;
   char s[11];
 
   strcpy(s, "");
