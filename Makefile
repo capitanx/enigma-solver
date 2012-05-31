@@ -1,7 +1,7 @@
 all: enigma
 
 enigma:
-	gcc -O3 enigma.c -o enigma
+	gcc -O3 enigma.c cipher.c -o enigma
 
 clean:
 	rm -f enigma
