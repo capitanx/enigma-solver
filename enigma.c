@@ -4,11 +4,12 @@
   Written by  */
 
 #include <stdio.h>
-
+#include <string.h>
 
 #define MSGLEN 80
 #define TO 'Z'
 
+char out[MSGLEN];
 
 /* Rotor wirings */
 char rotor[5][26]={
@@ -110,7 +111,7 @@ char scramble(char c, Params *p)
 		/*  Reflecting rotor */
 		c=ref[c-'A'];
 
-		/*  Rotors (reverse) */
+		/*  Rotors (reverse) */ 
 		for (i=3; i; i--)
 		{
 			c += p->pos[i-1]-'A';
@@ -134,7 +135,7 @@ char scramble(char c, Params *p)
 			if (c<'A')
 				c += 26;
 		}
-		
+
 		/*  Plugboard  */
 		for (i=0; p->plug[i]; i+=2) {
 			if (c==p->plug[i]) c=p->plug[i+1];
@@ -148,7 +149,6 @@ char scramble(char c, Params *p)
 char *enigma(char *in, Params *p)
 {
   int j;
-  char out[MSGLEN];
   for(j = 0; j < strlen(in); j++)
   out[j] = scramble(in[j], p);
   out[j] = '\0';
@@ -187,16 +187,18 @@ void rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct)
     {
       for(p.pos[2] = 'A'; p.pos[2] <= 'Z'; p.pos[2]++)
       {
-/*        for(p.rings[0] = 'A'; p.rings[0] <= 'Z'; p.rings[0]++)
+        for(p.rings[0] = 'A'; p.rings[0] <= 'Z'; p.rings[0]++)
         {
           for(p.rings[1] = 'A'; p.rings[1] <= 'Z'; p.rings[1]++)
           {
             for(p.rings[2] = 'A'; p.rings[2] <= 'Z'; p.rings[2]++)
             {
-*/	      Params cp = p;
+	      Params cp = p;
 	      int i = 0;
 
+//		  printf("+");
 	      while(strlen(crib) > i) {
+//			printf(".");
 			if(cyph[i] != scramble(crib[i], &cp)) break;
 			else i++;
 	      }
@@ -214,10 +216,10 @@ void rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct)
 			strcpy(s, enigma(cyph, &cp));
 			printf("%s decoded -> %s\n", cyph, s);
           }
-/*            }
+            }
           }
         }
-*/      }
+      }
     }
   }
 }
@@ -291,12 +293,13 @@ void permuteAll(char *cyph, char *crib)
   permute(1, 2, 4, cyph, crib, &ct);
   permute(1, 2, 5, cyph, crib, &ct);
   permute(1, 3, 4, cyph, crib, &ct);
-  permute(1, 3, 5, cyph, crib, &ct);
-  permute(1, 4, 5, cyph, crib, &ct);
-  permute(2, 3, 4, cyph, crib, &ct);
-  permute(2, 3, 5, cyph, crib, &ct);
-  permute(2, 4, 5, cyph, crib, &ct);
+  permute(1, 5, 3, cyph, crib, &ct);
+  permute(1, 5, 4, cyph, crib, &ct);
+  permute(2, 4, 3, cyph, crib, &ct);
+  permute(2, 5, 3, cyph, crib, &ct);
+  permute(2, 5, 4, cyph, crib, &ct);
   permute(3, 4, 5, cyph, crib, &ct);
+
   printf("\nFound %d solutions.\n", ct);
 }
 
@@ -320,9 +323,9 @@ void initParams(Params *p)
   c = readCh();
   if(c != 'u')
   {
-    for(i = 0; i < 3; i++)
+    for(i = 2; i >= 0; i--)
     {
-      p->order[i] = i + 1;
+      p->order[i] = 3 - i;
       p->rings[i] = 'A';
       p->pos[i] = 'A';
     }
@@ -330,19 +333,19 @@ void initParams(Params *p)
   }
   else
   {
-      for(i = 0; i < 3; i++)
+      for(i = 2; i >= 0; i--)
       {
-        printf("Wheel %d: ", i + 1);
+        printf("Wheel %d: ", 3 - i);
         p->order[i] = readCh() - 48;
       }
-      for(i = 0; i < 3; i++)
+      for(i = 2; i >= 0; i--)
       {
-        printf("Ring  %d: ", i + 1);
-        p->rings[i] = 'A';/*readCh();*/
+        printf("Ring  %d: ", 3 - i);
+        p->rings[i] = readCh();
       }
-      for(i = 0; i < 3; i++)
+      for(i = 2; i >= 0; i--)
       {
-        printf("Start %d: ", i + 1);
+        printf("Start %d: ", 3 - i);
         p->pos[i] = readCh();
       }
       printf("Stecker: ");
@@ -362,7 +365,7 @@ void initParams(Params *p)
 
 
 /********************************************MAIN*********************************************/
-void main(int argc, char *argv[])
+int main(int argc, char *argv[])
 {
   Params p;
 

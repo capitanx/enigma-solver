@@ -18,9 +18,28 @@ char rotor[5][26]={
 	/* 3: */ "BDFHJLCPRTXVZNYEIWGAKMUSQO",
 	/* 4: */ "ESOVPZJAYQUIRHXLNFTGKDCMWB",
 	/* 5: */ "VZBRGITYUPSDNHLXAWMJQOFECK" };
+
 char ref[26]="YRUHQSLDPXNGOKMIEBFZCWVJAT";
 
+char refA[26] = "EJMZALYXVBWFCRQUONTSPIKHGD"; // before to WWII
+char refB[26] = "YRUHQSLDPXNGOKMIEBFZCWVJAT"; // standard on WWII
+char refC[26] = "FVPJIAOYEDRZXWGCTKUQSBNMHL"; // rare on WWII
+
 char notch[5]="QEVJZ";
+
+/* NORWAY ENIGMA (after to WWII)
+ *
+ * Wheel	ABCDEFGHIJKLMNOPQRSTUVWXYZ	Notch	Turnover	#
+ * ----------------------------------------------------------
+ * ETW		ABCDEFGHIJKLMNOPQRSTUVWXYZ			 
+ * I		WTOKASUYVRBXJHQCPZEFMDINLG	Y		Q			1
+ * II		GJLPUBSWEMCTQVHXAOFZDRKYNI	M		E			1
+ * III		JWFMHNBPUSDYTIXVZGRQLAOEKC	D		V			1
+ * IV		ESOVPZJAYQUIRHXLNFTGKDCMWB	R		J			1
+ * V		HEJXQOTZBVFDASCILWPGYNMURK	H		Z			1
+ * UKW		MOWJYPUXNDSRAIBFVLKZGQCHET
+ *
+ */
 
 /* Encryption parameters follow */
 
@@ -190,18 +209,25 @@ int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct)
     {
       for(p.pos[2] = 'A'; p.pos[2] <= 'Z'; p.pos[2]++)
       {
-/*        for(p.rings[0] = 'A'; p.rings[0] <= 'Z'; p.rings[0]++)
+
+        for(p.rings[0] = 'A'; p.rings[0] <= 'Z'; p.rings[0]++)
         {
+
+			// First char check
+			Params cp = p;
+			if (cyph[0] != scramble(crib[0], &cp)) break;
+
           for(p.rings[1] = 'A'; p.rings[1] <= 'Z'; p.rings[1]++)
           {
             for(p.rings[2] = 'A'; p.rings[2] <= 'Z'; p.rings[2]++)
             {
-*/
+
+
 	      Params cp = p;
 	      i = 0;
 
 	      while(len > i) {
-			if(cyph[i] != scramble(crib[i], &cp)) break;
+			if(cyph[i] != scramble(crib[i], &cp)) goto outHackFromHell;
 			else i++;
 	      }
 
@@ -209,8 +235,6 @@ int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct)
 //			printf("LEN: %i I: %i\n",len,i);
 
 	      if(len == i) {
-			printf("kk\n");
-//			char s[MSGLEN];
 			(*ct)++;
 			cp = p;
 			strcpy(s, enigma(cyph, &cp));
@@ -226,12 +250,17 @@ int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct)
 			oldcyph2 = s[32];
 			return(1);
           }
-/*            }
+
+			outHackFromHell:
+			break;
+
+            }
           }
         }
-*/      }
+      }
     }
   }
+
   return(0);
 }
 
@@ -244,6 +273,7 @@ void test(int a, int b, int c, char *cyph, char *crib, int *ct)
 
   strcpy(s, "");
   printf("Checking wheels %d %d %d\n",  a, b, c); 
+	  rotate(a, b, c, cyph, crib, "", ct);
 	  A='A';
       for(B = A+1; A < TO; B++) {
 		 if (B == '[') { A++; B=A+1; }
@@ -265,7 +295,6 @@ void test(int a, int b, int c, char *cyph, char *crib, int *ct)
 			}
 		 }
       }
-	printf("FIN\n");
 }
 
 
@@ -295,6 +324,7 @@ void permuteAll(char *cyph, char *crib)
   permute(2, 3, 5, cyph, crib, &ct);
   permute(2, 4, 5, cyph, crib, &ct);
   permute(3, 4, 5, cyph, crib, &ct);
+
   printf("\nFound %d solutions.\n", ct);
 }
 
