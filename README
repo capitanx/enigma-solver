@@ -2,3 +2,12 @@ ENIGMA MACHINE BOMBE AND SOLVER
 -------------------------------
 
 This software is in heavy development.
+
+
+0. USAGE
+
+enigma
+	-> To run without parameters to make a enigma encrypted msg.
+
+enigma <CRYPTED TEXT> <INITIAL CRIB> (Recommended crib of 6 chars)
+	-> Run in bombe mode
