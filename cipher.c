@@ -12,9 +12,11 @@
 #include "cipher.h"
 #include "enigma.h"
 
+int flag = 0;
+
 char scramble(char c, Params *p)
 {
-  int i, j, flag;
+  int i, j;
 
 		c=toupper(c);
 		if (!isalpha(c))

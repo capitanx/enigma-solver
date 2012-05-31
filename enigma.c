@@ -44,11 +44,9 @@ void permuteAll(char *cyph, char *crib)
 /*helper to read a character*/
 char readCh()
 {
-  char c, ret;
-
-  while((c = getchar()) != '\n')
-  ret = c;
-  return ret;
+  char c='A';
+  while((c = getchar()) != '\n') {}
+  return c;
 }
 
 /*init the starting position*/
