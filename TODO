@@ -1,11 +1,3 @@
-0.1 Release
------------
-
-* Support enigma UKA-A, AKA-B and UKA-C ciphers.
-* Basic bombe support.
-* Refactor all code.
-
-
 0.2 Release
 -----------
 
