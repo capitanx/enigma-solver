@@ -10,6 +10,7 @@
 ******************************************************************************/
 
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
@@ -18,11 +19,12 @@
 #include <bsd/string.h>
 #endif
 
-#define MSGLEN 80
-#define TO 'Z'
+/* Defines */
+#define MSGLEN	256
+#define TO		'Z'
+#define PROMPT	"ENIGMA> "
 
-/* Encryption parameters follow */
-
+/* Structs */
 typedef struct P
 {
   char order[3];/*={ 1, 2, 3 };*/
@@ -31,18 +33,13 @@ typedef struct P
   char plug[10];/*="AMTE";*/
 } Params;
 
-char scramble(char c, Params *p);
+/* Variables */
 char out[MSGLEN];
-char *enigma(char *in, Params *p);
-void cypher(Params p);
-char oldcyph1;
-char oldcyph2;
-int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct);
-void test(int a, int b, int c, char *cyph, char *crib, int *ct);
 
-/*
-void permute(int a, int b, int c, char *cyph, char *crib, int *ct)
-void permuteAll(char *cyph, char *crib)
-char readCh()
-void initParams(Params *p)
-*/
+/* Functions */
+char scramble(char c, Params *p);
+char *enigma(char *in, Params *p);
+char *cypher(Params p, char * out);
+int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct, int errora);
+void test(int a, int b, int c, char *cyph, char *crib, int *ct, int errora);
+

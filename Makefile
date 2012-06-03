@@ -27,5 +27,8 @@ all: enigma
 enigma: 
 	$(CC) $(OPTS) enigma.c cipher.c -o enigma
 
+enigma-debug:
+	$(CC) -g $(OPTS) enigma.c cipher.c -o enigma
+
 clean:
 	rm -f enigma

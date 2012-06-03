@@ -119,6 +119,7 @@ char scramble(char c, Params *p)
   return c;
 }
 
+/* Global variable for performance on enigma function */
 char out[MSGLEN];
 
 /*take a string, return encoded string*/
@@ -132,9 +133,9 @@ char *enigma(char *in, Params *p)
 }
 
 /*read in a string, and pass it through enigma*/
-void cypher(Params p)
+char * cypher(Params p, char * s)
 {
-  char in[MSGLEN], s[MSGLEN];
+  char in[MSGLEN];
   int c, i = 0;
 
   while((c = getchar()) != '\n')
@@ -143,20 +144,25 @@ void cypher(Params p)
     i++;
   }
   in[i] = '\0';
-  strlcpy(s, enigma(in, &p), sizeof(s));
-  printf("\n%s\n%s\n", s, in);
+  strlcpy(s, enigma(in, &p), sizeof(in));
+
+#ifdef DEBUG
+  printf("[D] s: %s in: %s\n", s, in);
+#endif
+
+  return(s);
 }
 
-char oldcyph1;
-char oldcyph2;
-int sattack = 1;
+char oldcyph[MSGLEN] = "";
 
 /*given a cipher text, and a crib, test all possible settings of wheel order a, b, c*/
-int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct)
+int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct, int errora)
 {
   Params p;
   int i = 0;
+  int fail = 0;
   int len = strlen(crib);
+  int pluglen = strlen(plug);
   char s[MSGLEN];
 
   p.order[0] = a;
@@ -165,86 +171,95 @@ int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct)
   p.rings[0] = p.rings[1] = p.rings[2] = 'A';
   strlcpy(p.plug, plug, sizeof(p.plug));
 
-  for(p.pos[0] = 'A'; p.pos[0] <= 'Z'; p.pos[0]++)
+  for(p.pos[2] = 'A'; p.pos[2] <= 'Z'; p.pos[2]++)
   {
     for(p.pos[1] = 'A'; p.pos[1] <= 'Z'; p.pos[1]++)
     {
-      for(p.pos[2] = 'A'; p.pos[2] <= 'Z'; p.pos[2]++)
+      for(p.pos[0] = 'A'; p.pos[0] <= 'Z'; p.pos[0]++)
       {
-
-       for(p.rings[0] = 'A'; p.rings[0] <= 'Z'; p.rings[0]++)
+       for(p.rings[2] = 'A'; p.rings[2] <= 'Z'; p.rings[2]++)
        {
-
-		if (sattack == 1) {
-			/* First char check if stadistical is on */
-			Params cp = p;
-			if (cyph[0] != scramble(crib[0], &cp)) break;
-		}
-
         for(p.rings[1] = 'A'; p.rings[1] <= 'Z'; p.rings[1]++)
         {
-         for(p.rings[2] = 'A'; p.rings[2] <= 'Z'; p.rings[2]++)
+         for(p.rings[0] = 'A'; p.rings[0] <= 'Z'; p.rings[0]++)
          {
 
 	      Params cp = p;
 	      i = 0;
-
+		  fail = 0;
 	      while(len > i) {
-			if(cyph[i] != scramble(crib[i], &cp)) goto outHackFromHell;
+			if(cyph[i] != scramble(crib[i], &cp)) {
+				/*
+				if (i == 0) {
+					fail = 666;
+					break;
+				}
+				*/
+				fail++;
+			}
+			/* if we are bruteforcing plug dont allow fails */
+			if ( (pluglen == 0 && fail > errora) || (pluglen > 0 && fail > 0) ) {
+/*				fail += i; */
+				fail = 666;
+				break;
+			}
 			else i++;
 	      }
 
 #ifdef DEBUG
-			printf("TESTING: W: %d%d%d S: %c%c%c R: %c%c%c # %s\n ",p.order[2], p.order[1], p.order[0], p.pos[2], p.pos[1], p.pos[0], p.rings[2], p.rings[1], p.rings[0], p.plug);
-			printf("LEN: %i I: %i\n",len,i);
+		  printf("LEN: %i I: %i\n",len,i);
 #endif
 
-	      if(len == i) {
+		if (fail == 0 || ( pluglen == 0 && fail < errora + 1) ) {
+			/* Mark as good coincidence */
 			(*ct)++;
+
+			/* Calculate all cypher */
 			cp = p;
 			strlcpy(s, enigma(cyph, &cp), sizeof(s));
 
-			if (oldcyph1 != s[9] && oldcyph2 != s[32]) {
-				printf("W: %d%d%d S: %c%c%c R: %c%c%c STECKER: \"%s\"\t# %s\n",
+			/* XXX: Show result if is different to the last one */
+			if( strcmp( oldcyph, s ) != 0 ) {
+				printf("[R] Wheel: %d%d%d Start: %c%c%c Rotor: %c%c%c Stecker: \"%s\"\tDecoded String: %s\n",
 				p.order[2], p.order[1], p.order[0],
 				p.pos[2],   p.pos[1],   p.pos[0],
 				p.rings[2], p.rings[1], p.rings[0], p.plug, s);
+		    }
 
-				/* Turn to climb the hill only */
-				sattack = 0;
-			}
+			/* Copy the actual cyph to a external variable for next itinerance check */
+			strlcpy(oldcyph,s,sizeof(s));
 
-			oldcyph1 = s[9];
-			oldcyph2 = s[32];
+			if (strlen(plug) == 0)
+				printf("[I] Has been found a coincidence, bruteforcing enigma plug.\n[I] This process can take a very long time.\n");
+
 			return(1);
-          } else {
-			  /* Turn to climb the hill only if 2 chars ok */
-			  if (i > 1) sattack = 0;
-		  }
 
-			outHackFromHell:
-			break;
+          } else continue;
 
-            }
-          }
-        }
-      }
-    }
+			/* end if fail < 2 */
+         }
+       }
+     }
+   }
   }
+ }
 
+  /* Exit without results */
   return(0);
 }
 
 /*do the whole check including steckering of up to two pairs of letters*/
-void test(int a, int b, int c, char *cyph, char *crib, int *ct)
+void test(int a, int b, int c, char *cyph, char *crib, int *ct, int errora)
 {
   char A, B, C, D;
 /*  char E, F, G, H, I, J; */
   char s[11];
 
   strlcpy(s, "", sizeof(s));
-  printf("Checking wheels %d %d %d\n",  a, b, c); 
-	  rotate(c, b, a, cyph, crib, "", ct);
+#ifdef DEBUG
+  printf("Checking wheels %d %d %d\n",  a, b, c);
+#endif
+	  if (rotate(c, b, a, cyph, crib, "", ct, errora) == 0) return;
 	  A='A';
       for(B = A+1; A < TO; B++) {
 		 if (B == '[') { A++; B=A+1; }
@@ -252,7 +267,8 @@ void test(int a, int b, int c, char *cyph, char *crib, int *ct)
 		 s[0] = A;
 		 s[1] = B;
 		 s[2] = '\0';
-		 if (rotate(c, b, a, cyph, crib, s, ct)) {
+		 printf ("[I] Bruteforce plug: \"%s\"\n",s);
+		 if (rotate(c, b, a, cyph, crib, s, ct, errora)) {
 			C='A';
 			for(D = C+1; C < TO; D++) {
 				if (D == '[') { C++; D=C+1; }
@@ -262,10 +278,11 @@ void test(int a, int b, int c, char *cyph, char *crib, int *ct)
 				s[2] = C;
 				s[3] = D;
 				s[4] = '\0';
-				rotate(c, b, a, cyph, crib, s, ct);
-				sattack = 1;
+				printf ("[I] Bruteforce plug: \"%s\"\n",s);
+				rotate(c, b, a, cyph, crib, s, ct, errora);
 			}
 		 }
       }
+	  /* TODO: Movida con los corchetes [D] STAT: 1 W: 214 S: NQP R: AAA # KWZ[ */
 }
 

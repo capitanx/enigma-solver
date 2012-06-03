@@ -11,15 +11,35 @@
 
 #include "cipher.h"
 
+float cpercent = 0;
+int errora = 1;
+
 /*run on all permutations of wheels a, b, c*/
 void permute(int a, int b, int c, char *cyph, char *crib, int *ct)
 {
-  test(a, b, c, cyph, crib, ct);
-  test(a, c, b, cyph, crib, ct);
-  test(b, a, c, cyph, crib, ct);
-  test(b, c, a, cyph, crib, ct);
-  test(c, a, b, cyph, crib, ct);
-  test(c, b, a, cyph, crib, ct);
+  fprintf(stderr,"[I]  %02i%% Completed - Checking wheels %i%i%i\n",(int)cpercent,a,b,c);
+  test(a, b, c, cyph, crib, ct, errora);
+  cpercent += 1.66;
+
+  fprintf(stderr,"[I]  %02i%% Completed - Checking wheels %i%i%i\n",(int)cpercent,a,c,b);
+  test(a, c, b, cyph, crib, ct, errora);
+  cpercent += 1.66;
+
+  fprintf(stderr,"[I]  %02i%% Completed - Checking wheels %i%i%i\n",(int)cpercent,b,a,c);
+  test(b, a, c, cyph, crib, ct, errora);
+  cpercent += 1.66;
+
+  fprintf(stderr,"[I]  %02i%% Completed - Checking wheels %i%i%i\n",(int)cpercent,b,c,a);
+  test(b, c, a, cyph, crib, ct, errora);
+  cpercent += 1.66;
+
+  fprintf(stderr,"[I]  %02i%% Completed - Checking wheels %i%i%i\n",(int)cpercent,c,a,b);
+  test(c, a, b, cyph, crib, ct, errora);
+  cpercent += 1.66;
+
+  fprintf(stderr,"[I]  %02i%% Completed - Checking wheels %i%i%i\n",(int)cpercent,c,b,a);
+  test(c, b, a, cyph, crib, ct, errora);
+  cpercent += 1.66;
 }
 
 /*all triples of five possible wheels*/
@@ -38,26 +58,27 @@ void permuteAll(char *cyph, char *crib)
   permute(2, 4, 5, cyph, crib, &ct);
   permute(3, 4, 5, cyph, crib, &ct);
 
-  printf("\nFound %d solutions.\n", ct);
+  printf("[I] 100%% Completed - Found %d possible solutions.\n", ct);
 }
 
-/*helper to read a character*/
-char readCh()
-{
-  char c='A';
-  while((c = getchar()) != '\n') {}
-  return c;
+char getCleanChar() {
+	char c = 'd';
+	char ret = 'd';
+
+	while((c = getchar()) != '\n') ret=c;
+	return(ret);
 }
 
 /*init the starting position*/
 void initParams(Params *p)
 {
   int i;
-  char c;
+  char c = 'd';
 
-  printf("d)efault or u)ser: ");
-  c = readCh();
-  if(c != 'u')
+  printf("\nd)efault enigma\nu)ser defined\n\n%s",PROMPT);
+  c = getCleanChar();
+
+  if(c == 'd')
   {
     for(i = 2; i >= 0; i--)
     {
@@ -66,23 +87,23 @@ void initParams(Params *p)
       p->pos[i] = 'A';
     }
     strlcpy(p->plug, "", sizeof(p->plug));
-  }
-  else
-  {
+  } 
+
+  if(c == 'u') {
       for(i = 2; i >= 0; i--)
       {
         printf("Wheel %d: ", 3 - i);
-        p->order[i] = readCh() - 48;
+        p->order[i] = getCleanChar() - 48;
       }
       for(i = 2; i >= 0; i--)
       {
         printf("Ring  %d: ", 3 - i);
-        p->rings[i] = readCh();
+        p->rings[i] = getCleanChar();
       }
       for(i = 2; i >= 0; i--)
       {
         printf("Start %d: ", 3 - i);
-        p->pos[i] = readCh();
+        p->pos[i] = getCleanChar();
       }
       printf("Stecker: ");
       i = 0;
@@ -93,25 +114,52 @@ void initParams(Params *p)
       }
       p->plug[i] = '\0';
   }
-  printf("Wheels %d %d %d Start %c %c %c Rings %c %c %c Stecker \"%s\"\n",
+
+  printf("\n[I] Wheels %d%d%d Start %c%c%c Rings %c%c%c Stecker \"%s\"\n\nEnter text:\t",
          p->order[2], p->order[1], p->order[0], 
          p->pos[2], p->pos[1], p->pos[0],
          p->rings[2], p->rings[1], p->rings[0], p->plug);
 }
 
 
-int main(int argc, char *argv[])
+int main() /*int argc, char *argv[])*/
 {
   Params p;
+  char outCipherTxt[MSGLEN] = "";
+  char inEncryptedTxt[MSGLEN] = "";
+  char inCrabTxt[MSGLEN] = "";
+  char c = 'e';
 
-  if(argc > 2)  /*bombe case*/
-  {
-    permuteAll(argv[1], argv[2]);
+  printf("    _____  _____________  ______     ________  __ _   _________ \n   / __/ |/ /  _/ ___/  |/  / _ |   / __/ __ \\/ /| | / / __/ _ \\\n  / _//    // // (_ / /|_/ / __ |  _\\ \\/ /_/ / /_| |/ / _// , _/\n /___/_/|_/___/\\___/_/  /_/_/ |_| /___/\\____/____/___/___/_/|_| \n");
+  printf("-----------------------------------------------------------------\n\ne)ncrypt\nd)ecrypt\ns)et properties\n\n%s",PROMPT);
+  c = getCleanChar();
+
+  if(c == 's') {
+	  printf("\nErrors in crib to allow bruteforce (1): ");
+	  getCleanChar();
+	  errora = 2;
+	  printf("\nHackFromTheHell will teletransport you to the \"decrypt\" option :)\n");
+	  c = 'd';
   }
-  else
+
+  if(c == 'd')  /*bombe case*/
+  {
+	printf("Encrypted Text: ");
+	fgets (inEncryptedTxt,MSGLEN-1,stdin);
+	printf("Crab Text:      ");
+	fgets (inCrabTxt,MSGLEN-1,stdin);
+	printf("\n");
+
+	inEncryptedTxt[strlen(inEncryptedTxt) - 1] = '\0';
+	inCrabTxt[strlen(inCrabTxt) - 1] = '\0';
+
+    permuteAll(inEncryptedTxt,inCrabTxt);
+  }
+
+  if (c == 'e')
   {
     initParams(&p);
-    cypher(p);
+    printf("Encrypted text:\t%s\n",cypher(p,outCipherTxt));
   }
 
   return(0);
