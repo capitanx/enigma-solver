@@ -132,7 +132,7 @@ int main() /*int argc, char *argv[])*/
   Params p;
   char outCipherTxt[MSGLEN] = "";
   char inEncryptedTxt[MSGLEN] = "";
-  char inCrabTxt[MSGLEN] = "";
+  char inCribTxt[MSGLEN] = "";
   char c = 'e';
 
   printf("    _____  _____________  ______     ________  __ _   _________ \n   / __/ |/ /  _/ ___/  |/  / _ |   / __/ __ \\/ /| | / / __/ _ \\\n  / _//    // // (_ / /|_/ / __ |  _\\ \\/ /_/ / /_| |/ / _// , _/\n /___/_/|_/___/\\___/_/  /_/_/ |_| /___/\\____/____/___/___/_/|_| \n");
@@ -151,17 +151,17 @@ int main() /*int argc, char *argv[])*/
   {
 	printf("Encrypted Text: ");
 	fgets (inEncryptedTxt,MSGLEN-1,stdin);
-	printf("Crab Text:      ");
-	fgets (inCrabTxt,MSGLEN-1,stdin);
+	printf("Crib Text:      ");
+	fgets (inCribTxt,MSGLEN-1,stdin);
 	printf("\n");
 
 	inEncryptedTxt[strlen(inEncryptedTxt) - 1] = '\0';
-	inCrabTxt[strlen(inCrabTxt) - 1] = '\0';
+	inCribTxt[strlen(inCribTxt) - 1] = '\0';
 
 	stringToUpper(inEncryptedTxt);
-	stringToUpper(inCrabTxt);
+	stringToUpper(inCribTxt);
 
-    permuteAll(inEncryptedTxt,inCrabTxt);
+    permuteAll(inEncryptedTxt,inCribTxt);
   }
 
   if (c == 'e')

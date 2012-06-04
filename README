@@ -2,12 +2,33 @@ ENIGMA MACHINE BOMBE AND SOLVER
 -------------------------------
 
 This software is in heavy development.
+It can be used as a enigma encrypt machine or as an enigma bombe.
+
+The bombe is based on known-plaintext attack (KPA) for this we need a crib text.
+This attack is assisted for stadistical and heuristics to help the KPA.
 
 
 0. USAGE
 
-enigma
-	-> To run without parameters to make a enigma encrypted msg.
+Run enigma to get a hacky CLI :-)
 
-enigma <CRYPTED TEXT> <INITIAL CRIB> (Recommended crib of 6 chars)
-	-> Run in bombe mode
+
+1. EXAMPLE
+
+   _____  _____________  ______     ________  __ _   _________ 
+  / __/ |/ /  _/ ___/  |/  / _ |   / __/ __ \/ /| | / / __/ _ \
+ / _//    // // (_ / /|_/ / __ |  _\ \/ /_/ / /_| |/ / _// , _/
+/___/_/|_/___/\___/_/  /_/_/ |_| /___/\____/____/___/___/_/|_| 
+-----------------------------------------------------------------
+
+e)ncrypt
+d)ecrypt
+s)et properties
+
+ENIGMA> d
+Encrypted Text: KOXERCFYVVLLHBOJNGJVEUWVYBGGCPYKWXXIFVMTFSGXHTQSAY
+Crib Text:		WIRWER
+
+[I]  00% Completed - Checking wheels 123
+[R] Wheel: 123 Start: AAA Rotor: AAA Stecker: ""	Decoded String: WIRWEMDENMORGENUMUHRNACHMITTAGSDIETRUPPENANGREIFEN Rank: 7
+
