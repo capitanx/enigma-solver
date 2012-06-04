@@ -98,16 +98,16 @@ void initParams(Params *p)
       for(i = 2; i >= 0; i--)
       {
         printf("Ring  %d: ", 3 - i);
-        p->rings[i] = getCleanChar();
+        p->rings[i] = toupper(getCleanChar());
       }
       for(i = 2; i >= 0; i--)
       {
         printf("Start %d: ", 3 - i);
-        p->pos[i] = getCleanChar();
+        p->pos[i] = toupper(getCleanChar());
       }
       printf("Stecker: ");
       i = 0;
-      while((c = getchar()) != '\n')
+      while((c = toupper(getchar())) != '\n')
       {
         p->plug[i] = c;
 	i++;
@@ -121,6 +121,11 @@ void initParams(Params *p)
          p->rings[2], p->rings[1], p->rings[0], p->plug);
 }
 
+void stringToUpper(char * str) {
+	unsigned int i;
+	for (i = 0;i < strlen(str); i++)
+		str[i] = toupper(str[i]);
+}
 
 int main() /*int argc, char *argv[])*/
 {
@@ -152,6 +157,9 @@ int main() /*int argc, char *argv[])*/
 
 	inEncryptedTxt[strlen(inEncryptedTxt) - 1] = '\0';
 	inCrabTxt[strlen(inCrabTxt) - 1] = '\0';
+
+	stringToUpper(inEncryptedTxt);
+	stringToUpper(inCrabTxt);
 
     permuteAll(inEncryptedTxt,inCrabTxt);
   }

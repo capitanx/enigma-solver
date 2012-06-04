@@ -25,10 +25,10 @@ endif
 all: enigma
 
 enigma: 
-	$(CC) $(OPTS) enigma.c cipher.c -o enigma
+	$(CC) $(OPTS) enigma.c cipher.c dict.c -o enigma
 
 enigma-debug:
-	$(CC) -g $(OPTS) enigma.c cipher.c -o enigma
+	$(CC) -g $(OPTS) enigma.c cipher.c dict.c -o enigma
 
 clean:
 	rm -f enigma

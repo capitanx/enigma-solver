@@ -11,6 +11,7 @@
 
 #include "cipher.h"
 #include "enigma.h"
+#include "dict.h"
 
 int flag = 0;
 
@@ -18,10 +19,6 @@ char scramble(char c, Params *p)
 {
   int i, j;
 
-		c=toupper(c);
-		if (!isalpha(c))
-			return -1;
-		
 		/* Step up first rotor */
 		p->pos[0]++;
 		if (p->pos[0]>'Z')
@@ -188,18 +185,10 @@ int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct, int
 	      i = 0;
 		  fail = 0;
 	      while(len > i) {
-			if(cyph[i] != scramble(crib[i], &cp)) {
-				/*
-				if (i == 0) {
-					fail = 666;
-					break;
-				}
-				*/
-				fail++;
-			}
+			if(cyph[i] != scramble(crib[i], &cp)) fail++;
+
 			/* if we are bruteforcing plug dont allow fails */
 			if ( (pluglen == 0 && fail > errora) || (pluglen > 0 && fail > 0) ) {
-/*				fail += i; */
 				fail = 666;
 				break;
 			}
@@ -220,10 +209,10 @@ int rotate(int a, int b, int c, char *cyph, char *crib, char *plug, int *ct, int
 
 			/* XXX: Show result if is different to the last one */
 			if( strcmp( oldcyph, s ) != 0 ) {
-				printf("[R] Wheel: %d%d%d Start: %c%c%c Rotor: %c%c%c Stecker: \"%s\"\tDecoded String: %s\n",
+				printf("[R] Wheel: %d%d%d Start: %c%c%c Rotor: %c%c%c Stecker: \"%s\"\tDecoded String: %s Rank: %i\n",
 				p.order[2], p.order[1], p.order[0],
 				p.pos[2],   p.pos[1],   p.pos[0],
-				p.rings[2], p.rings[1], p.rings[0], p.plug, s);
+				p.rings[2], p.rings[1], p.rings[0], p.plug, s, getRank(s));
 		    }
 
 			/* Copy the actual cyph to a external variable for next itinerance check */
