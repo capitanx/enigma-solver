@@ -1,39 +1,4 @@
-0.2 Release
------------
+TICKETING SYSTEM
+----------------
 
-* The bombe must be realiable
-* Rewrite the stadistical and climb the hill algoritms
-* Better CLI interface
-
-
-0.3 Release
------------
-
-* Work as an standalone library
-* Fix leaks and performance hacks
-
-
-0.4 Release
------------
-
-* Threads support
-* Database
-
-
-0.5 Release
------------
-
-* Dictionary checks over decrypted msg to rank them
-* Distributed computing support
-
-
-0.6 Release
------------
-
-* Decrypt real msg.
-
-
-0.7 Release
------------
-
-* Web interface
+https://code.haibane.org/enigma-solver/issues?kind=task&status=new
