@@ -17,7 +17,7 @@ int getRank(char * cyph) {
 	char str[40];
 	int  rank = 0;
 
-	FILE * dict = fopen("dict/german.txt", "r");
+	FILE * dict = fopen("dict/current.txt", "r");
 		if(!dict) return 0; /* cant open file */
 	
 	while(fgets(str,sizeof(str),dict) != NULL) {

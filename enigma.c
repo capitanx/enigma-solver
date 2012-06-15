@@ -153,7 +153,7 @@ int main() /*int argc, char *argv[])*/
 	fgets (inEncryptedTxt,MSGLEN-1,stdin);
 	printf("Crib Text:      ");
 	fgets (inCribTxt,MSGLEN-1,stdin);
-	printf("\n");
+	printf("\n[I] This process can take a very long time.\n");
 
 	inEncryptedTxt[strlen(inEncryptedTxt) - 1] = '\0';
 	inCribTxt[strlen(inCribTxt) - 1] = '\0';
