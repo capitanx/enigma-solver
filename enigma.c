@@ -98,12 +98,12 @@ void initParams(Params *p)
       for(i = 2; i >= 0; i--)
       {
         printf("Ring  %d: ", 3 - i);
-        p->rings[i] = toupper(getCleanChar());
+        p->rings[i] = toupper((int)getCleanChar());
       }
       for(i = 2; i >= 0; i--)
       {
         printf("Start %d: ", 3 - i);
-        p->pos[i] = toupper(getCleanChar());
+        p->pos[i] = toupper((int)getCleanChar());
       }
       printf("Stecker: ");
       i = 0;
@@ -124,7 +124,7 @@ void initParams(Params *p)
 void stringToUpper(char * str) {
 	unsigned int i;
 	for (i = 0;i < strlen(str); i++)
-		str[i] = toupper(str[i]);
+		str[i] = toupper((int)str[i]);
 }
 
 int main() /*int argc, char *argv[])*/
