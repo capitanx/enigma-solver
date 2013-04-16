@@ -15,25 +15,27 @@ Run enigma to get a hacky CLI :-)
 
 1. EXAMPLE
 
-   _____  _____________  ______     ________  __ _   _________ 
-  / __/ |/ /  _/ ___/  |/  / _ |   / __/ __ \/ /| | / / __/ _ \
- / _//    // // (_ / /|_/ / __ |  _\ \/ /_/ / /_| |/ / _// , _/
-/___/_/|_/___/\___/_/  /_/_/ |_| /___/\____/____/___/___/_/|_| 
------------------------------------------------------------------
+::
 
-e)ncrypt
-d)ecrypt
-s)et properties
-
-ENIGMA> d
-Encrypted Text: KOXERTFYVVLLHBOJNGJVEUWVYBGGCPYKWXXIFVMTFSGXHTQSAY
-Crib Text:      WIRWER
-
-[I]  00% Completed - Checking wheels 123
-[R] Wheel: 123 Start: AAA Rotor: AAA Stecker: ""	Decoded String: WIRWERDENMORGENUMUHRNACHMITTAGSDIETRUPPENANGREIFEN Rank: 9
-[I] Has been found a coincidence, bruteforcing enigma plug.
-[I] This process can take a very long time.
-[I] Bruteforce plug: "AB"
-[R] Wheel: 123 Start: AAA Rotor: AAA Stecker: "AB"	Decoded String: WIRWERDENMORGTNUMUHRNBCHMXTTBGSDIETRUPPENBNGREIFQN Rank: 6
-[I] Bruteforce plug: "ABCD"
-[R] Wheel: 123 Start: AAA Rotor: AAA Stecker: "ABCD"	Decoded String: WIRWERCENMORGTNUMUHRNBDHMXTTNGSCIETRUPPENBNGREIFQN Rank: 4
+	   _____  _____________  ______     ________  __ _   _________ 
+	  / __/ |/ /  _/ ___/  |/  / _ |   / __/ __ \/ /| | / / __/ _ \
+	 / _//    // // (_ / /|_/ / __ |  _\ \/ /_/ / /_| |/ / _// , _/
+	/___/_/|_/___/\___/_/  /_/_/ |_| /___/\____/____/___/___/_/|_| 
+	-----------------------------------------------------------------
+	
+	e)ncrypt
+	d)ecrypt
+	s)et properties
+	
+	ENIGMA> d
+	Encrypted Text: KOXERTFYVVLLHBOJNGJVEUWVYBGGCPYKWXXIFVMTFSGXHTQSAY
+	Crib Text:      WIRWER
+	
+	[I]  00% Completed - Checking wheels 123
+	[R] Wheel: 123 Start: AAA Rotor: AAA Stecker: ""	Decoded String: WIRWERDENMORGENUMUHRNACHMITTAGSDIETRUPPENANGREIFEN Rank: 9
+	[I] Has been found a coincidence, bruteforcing enigma plug.
+	[I] This process can take a very long time.
+	[I] Bruteforce plug: "AB"
+	[R] Wheel: 123 Start: AAA Rotor: AAA Stecker: "AB"	Decoded String: WIRWERDENMORGTNUMUHRNBCHMXTTBGSDIETRUPPENBNGREIFQN Rank: 6
+	[I] Bruteforce plug: "ABCD"
+	[R] Wheel: 123 Start: AAA Rotor: AAA Stecker: "ABCD"	Decoded String: WIRWERCENMORGTNUMUHRNBDHMXTTNGSCIETRUPPENBNGREIFQN Rank: 4
