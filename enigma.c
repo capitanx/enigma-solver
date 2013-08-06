@@ -58,7 +58,7 @@ void permuteAll(char *cyph, char *crib)
   permute(2, 4, 5, cyph, crib, &ct);
   permute(3, 4, 5, cyph, crib, &ct);
 
-  printf("[I] 100%% Completed - Found %d possible solutions.\n", ct);
+  fprintf(stderr,"[I] 100%% Completed - Found %d possible solutions.\n", ct);
 }
 
 char getCleanChar() {
@@ -134,6 +134,7 @@ int main() /*int argc, char *argv[])*/
   char inEncryptedTxt[MSGLEN] = "";
   char inCribTxt[MSGLEN] = "";
   char c = 'e';
+  char tmp = '1';
 
   printf("    _____  _____________  ______     ________  __ _   _________ \n   / __/ |/ /  _/ ___/  |/  / _ |   / __/ __ \\/ /| | / / __/ _ \\\n  / _//    // // (_ / /|_/ / __ |  _\\ \\/ /_/ / /_| |/ / _// , _/\n /___/_/|_/___/\\___/_/  /_/_/ |_| /___/\\____/____/___/___/_/|_| \n");
   printf("-----------------------------------------------------------------\n\ne)ncrypt\nd)ecrypt\ns)et properties\n\n%s",PROMPT);
@@ -141,8 +142,8 @@ int main() /*int argc, char *argv[])*/
 
   if(c == 's') {
 	  printf("\nErrors in crib to allow bruteforce (1): ");
-	  getCleanChar();
-	  errora = 2;
+	  tmp = getCleanChar();
+	  errora = atoi(&tmp);
 	  printf("\nHackFromTheHell will teletransport you to the \"decrypt\" option :)\n");
 	  c = 'd';
   }

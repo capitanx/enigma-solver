@@ -15,7 +15,7 @@
 #include <string.h>
 #include <ctype.h>
 
-#ifdef __linux__
+#ifndef strlcpy
 #define strlcpy strncpy
 #endif
 
@@ -23,6 +23,7 @@
 #define MSGLEN	256
 #define TO		'Z'
 #define PROMPT	"ENIGMA> "
+#define IN_RANK	0
 
 /* Structs */
 typedef struct P

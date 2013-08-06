@@ -150,7 +150,7 @@ char * cypher(Params p, char * s)
   return(s);
 }
 
-int oldrank = 0;
+int oldrank = IN_RANK;
 
 /*given a cipher text, and a crib, test all possible settings of wheel order a, b, c*/
 Params rotate(int a, int b, int c, char *cyph, char *crib, char plug[11], int *ct, int errora)
@@ -158,7 +158,7 @@ Params rotate(int a, int b, int c, char *cyph, char *crib, char plug[11], int *c
   Params p;
   int i = 0;
   int fail = 0;
-  int rank = 0;
+  int rank = IN_RANK;
   int len = strlen(crib);
   char s[MSGLEN];
 

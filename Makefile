@@ -31,4 +31,4 @@ enigma-debug:
 	$(CC) -g $(OPTS) -DDEBUG enigma.c cipher.c dict.c -o enigma
 
 clean:
-	rm -f enigma
+	rm enigma
