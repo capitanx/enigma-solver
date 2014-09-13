@@ -12,7 +12,7 @@
 #include "cipher.h"
 
 float cpercent = 0;
-int errora = 1;
+int errora = 0;
 
 /*run on all permutations of wheels a, b, c*/
 void permute(int a, int b, int c, char *cyph, char *crib, int *ct)
