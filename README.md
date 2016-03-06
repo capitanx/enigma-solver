@@ -1,24 +1,16 @@
-===============================
-ENIGMA MACHINE BOMBE AND SOLVER
-===============================
+# ENIGMA MACHINE BOMBE AND SOLVER
 
 This software is in heavy development.
 It can be used as a enigma encrypt machine or as an enigma bombe.
 
-The bombe is based on `known-plaintext attack (KPA) <http://en.wikipedia.org/wiki/Known-plaintext_attack>`_ for this we need a crib text.
+The bombe is based on [known-plaintext attack (KPA)](http://en.wikipedia.org/wiki/Known-plaintext_attack) for this we need a crib text.
 This attack is assisted for stadistical and heuristics to help the KPA.
 
 
-USAGE
------
-
+## USAGE
 Run enigma to get a hacky CLI :-)
 
-
-EXAMPLE
--------
-
-::
+## EXAMPLE
 
 	   _____  _____________  ______     ________  __ _   _________ 
 	  / __/ |/ /  _/ ___/  |/  / _ |   / __/ __ \/ /| | / / __/ _ \
