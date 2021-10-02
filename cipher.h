@@ -35,7 +35,7 @@ typedef struct P
 } Params;
 
 /* Variables */
-char out[MSGLEN];
+extern char out[MSGLEN];
 
 /* Functions */
 char scramble(char c, Params *p);
